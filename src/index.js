@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 const store = {
   offset: 0,
   size: 500,
@@ -61,3 +64,8 @@ class List extends React.Component {
     );
   }
 }
+
+ReactDOM.render(
+  <List />,
+  document.getElementById('team')
+)
