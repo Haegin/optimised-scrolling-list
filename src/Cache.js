@@ -15,16 +15,12 @@ class Cache extends React.Component {
     if (dataMissing) {
       return this.props.loadData(start, end).
         then((data) => {
-          this.setState({
-            cache: data.reduce((cache, data, idx) => {
-              cache[idx + start] = data
-              return cache
-            }, this.state.cache)
-          })
+          console.log(`Got data: `, data)
+          this.setState({cache: {...this.state.cache, ...data}})
           return data;
         })
     } else {
-      return Promise.resolve(_.values(_.pick(this.state.cache, _.range(start, end))))
+      return Promise.resolve(_.pick(this.state.cache, _.range(start, end)))
     }
   }
 

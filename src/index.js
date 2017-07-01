@@ -11,7 +11,11 @@ const store = {
 class App extends React.Component {
   loadNames(from, to) {
     return fetch(`/names?from=${from}&to=${to}`).
-      then((response) => (response.json()))
+      then(response => response.json()).
+      then(list => _.reduce(list, (acc, item, idx) => {
+        acc[idx + from] = item
+        return acc
+      }, {}))
   }
 
   render() {

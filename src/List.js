@@ -9,10 +9,10 @@ class List extends React.Component {
       offset: 0,
       data: {}
     };
-    this.doLoadData();
   }
 
   componentDidMount() {
+    this.doLoadData();
     window.addEventListener('scroll', () => {
       const offset = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
       this.setState({ offset }, this.doLoadData);
@@ -21,14 +21,7 @@ class List extends React.Component {
 
   doLoadData() {
     this.props.loadData(this.numberOfPastRows() + 1, this.numberOfPastRows() + this.numberOfRows() + 1).
-      then((data) => {
-        this.setState({
-          data: _.reduce(data, (acc, item, idx) => {
-            acc[idx + this.numberOfPastRows() + 1] = item
-            return acc
-          }, {})
-        })
-      }
+      then(data => this.setState({data})
     )
   }
 
