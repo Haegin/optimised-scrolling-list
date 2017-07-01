@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import Row from './Row';
 
 class List extends React.Component {
@@ -51,6 +52,11 @@ class List extends React.Component {
       </div>
     );
   }
+}
+
+List.propTypes = {
+  size: PropTypes.number.isRequired,
+  loadData: PropTypes.func.isRequired
 }
 
 export default List;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import List from './List';
 
 class Cache extends React.Component {
@@ -15,7 +16,6 @@ class Cache extends React.Component {
     if (dataMissing) {
       return this.props.loadData(start, end).
         then((data) => {
-          console.log(`Got data: `, data)
           this.setState({cache: {...this.state.cache, ...data}})
           return data;
         })
@@ -27,6 +27,10 @@ class Cache extends React.Component {
   render() {
     return <List {...this.props} loadData={this.loadDataUsingCache} />
   }
+}
+
+Cache.propTypes = {
+  ...List.propTypes,
 }
 
 export default Cache;

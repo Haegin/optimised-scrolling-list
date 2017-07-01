@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import Cache from './Cache';
 
 class Batcher extends React.Component {
@@ -40,5 +41,15 @@ class Batcher extends React.Component {
     return (<Cache size={this.props.size} loadData={this.batchLoadData} />);
   }
 }
+
+Batcher.defaultProps = {
+  delayAmount: 200,
+}
+
+Batcher.propTypes = {
+  ...Cache.propTypes,
+  delayAmount: PropTypes.number,
+}
+
 
 export default Batcher;
