@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Cache from './Cache';
+import Batcher from './Batcher';
 
 const store = {
   offset: 0,
@@ -19,7 +19,7 @@ class App extends React.Component {
   }
 
   render() {
-    return <Cache size={500} loadData={this.loadNames} />
+    return <Batcher delayAmount={500} size={500} loadData={this.loadNames} />
   }
 }
 

@@ -20,9 +20,9 @@ class List extends React.Component {
   }
 
   doLoadData() {
-    this.props.loadData(this.numberOfPastRows() + 1, this.numberOfPastRows() + this.numberOfRows() + 1).
-      then(data => this.setState({data})
-    )
+    this.props.loadData(this.numberOfPastRows() + 1, this.numberOfPastRows() + this.numberOfRows() + 1)
+      .then(data => this.setState({data}))
+      .catch(console.log)
   }
 
   numberOfRows() {
