@@ -7,8 +7,33 @@ class Cache extends React.Component {
     super(props);
     this.loadDataUsingCache = this.loadDataUsingCache.bind(this);
     this.state = {
-      cache: {}
+      cache: {},
+      generations: {oldest: 0, current: 0}
     }
+  }
+
+  addDataToCache(data) {
+    const requiredSlots = Math.min(_.size(data), this.props.cacheSize);
+    let newCache = {...this.state.cache};
+    let newOldestGeneration = this.state.generations.oldest;
+    while (this.props.cacheSize - _.size(newCache) < requiredSlots) {
+      newCache = _.pickBy(newCache, item => item.generation > newOldestGeneration);
+      newOldestGeneration++;
+    }
+    newCache = {
+      ...newCache,
+      ..._.reduce(data, (acc, value, idx) => {
+        acc[idx] = {generation: this.state.generations.current, value: value}
+        return acc;
+      }, {})
+    }
+    this.setState({
+      generations: {
+        oldest: newOldestGeneration,
+        current: this.state.generations.current + 1
+      },
+      cache: newCache
+    })
   }
 
   loadDataUsingCache(start, end) {
@@ -16,11 +41,16 @@ class Cache extends React.Component {
     if (dataMissing) {
       return this.props.loadData(start, end).
         then((data) => {
-          this.setState({cache: {...this.state.cache, ...data}})
+          this.addDataToCache(data)
           return data;
         })
     } else {
-      return Promise.resolve(_.pick(this.state.cache, _.range(start, end)))
+      return Promise.resolve(
+        _.mapValues(
+          _.pick(this.state.cache, _.range(start, end)),
+          'value'
+        )
+      )
     }
   }
 
@@ -29,8 +59,13 @@ class Cache extends React.Component {
   }
 }
 
+Cache.defaultProps = {
+  cacheSize: 1000,
+}
+
 Cache.propTypes = {
   ...List.propTypes,
+  cacheSize: PropTypes.number
 }
 
 export default Cache;

@@ -19,7 +19,7 @@ class App extends React.Component {
   }
 
   render() {
-    return <Batcher delayAmount={500} size={500} loadData={this.loadNames} />
+    return <Batcher delayAmount={500} size={500000} loadData={this.loadNames} />
   }
 }
 
